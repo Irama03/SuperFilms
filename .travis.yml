@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+- '17'
+before_install:
+- npm install -g @angular/cli
+install: npm install
+branches:
+  only:
+  - main
+deploy:
+  provider: heroku
+  app: super-films
+  api_key:
+    secure: ngNt4Vq2Di6HLXbIZwK/rE11aLBZrc5gi9NUlXAtVgSmBm/RVbf4ZHZyi7eOtJrWNujVtj/oaqBiWiOO0PpkHAL5x0Q7sKSv0XcDhmE13o5oPp3bnZdLX4F0dCnlsZT0dHk0tXIjQGR1GZRx2TGWMWC19N/uSvNSm7oaMo4lBkUqYJQ9Mc6izJC+rQelXjoLi2S0CjA0kkjfOWIbuLHerm2K5C4Ep4v/obYxvNqpQbINhwsjLAl3MvfodOlOrthDrgrt8S1OmAAlmCab1osetCFctHYn8fC0Inolo1w7TQTfRGMB/CjpVrc+atg9fW5+bD0uBXpqikVNn8aoyb0mhhOsh1R1URGVkHfTZmyqv/mfdFpOXlwJJ02m6l6ZpX6lDklGgvNJc5MRAxihrbAN+83jVzzzrR+9w6BC+Ld2CluDkIkfwWP+lMh1azajcjS4157zEQi0BtU4xcPL4WEi1Ai5Pri4y59QauOlo7ZAgtf8gzUSwSXH8ZK6QOUMoWtmjkQZ+L50KsEX6b//us2xsUyJgM3QMh3/vXHqCG58Gor2YCzEqyNVqKGWzRJPxb90UUzskSEihv+M1ViN58VECLVygx9WmdWIbKhTU63Oaatfo9Y8BdYlQrUzkAzdH/HimBcheF9RvMROBZGaITde4OVUzu4uX3AkGWNHnrDl7T4=
