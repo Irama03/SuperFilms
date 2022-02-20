@@ -1,0 +1,17 @@
+.card {
+  padding: .5rem 1rem;
+  border: 1px dashed #ccc;
+  margin-bottom: 1rem;
+}
+
+.card h2 {
+  margin-bottom: .5rem;
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}
