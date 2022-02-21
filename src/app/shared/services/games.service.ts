@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
+import {AuthService} from "./auth.service";
+import {ConnectionsService} from "./connections.service";
 
 export interface Game {
   id?: string
@@ -11,15 +13,26 @@ export interface Game {
   tag: string
 }
 
-interface CreateResponse {
+export interface CreateResponse {
   name: string
 }
 
 @Injectable({providedIn: 'root'})
 export class GamesService {
-  static url = 'https://supergames-8b60f-default-rtdb.europe-west1.firebasedatabase.app/games'
+  static url = 'https://supergames-8b60f-default-rtdb.europe-west1.firebasedatabase.app/games';
+  public games: Game[] = [];
+  public gamesInLibrary: Game[] = [];
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private connectionsService: ConnectionsService) {
+    this.load().subscribe(games => {
+      this.games = games;
+      for (const game of games) {
+        // @ts-ignore
+        if (connectionsService.connection.games.includes(game.id)) {
+          this.gamesInLibrary.push(game);
+        }
+      }
+    })
   }
 
   load(): Observable<Game[]> {

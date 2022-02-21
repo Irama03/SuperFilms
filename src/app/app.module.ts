@@ -9,7 +9,7 @@ import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import { environment } from '../environments/environment';
 
 const appRoutes: Routes =[
-  { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
+  { path: '', redirectTo: '/games', pathMatch: 'full' },
   { path: 'sign-in', component: SignInComponent },
   { path: 'games', component: GamesComponent, canActivate: [AuthGuard] },
   { path: 'library', component: LibraryComponent, canActivate: [AuthGuard] },
@@ -27,7 +27,7 @@ import { FriendsComponent } from './friends/friends.component';
 import { ProfileComponent } from './profile/profile.component';
 import {FilterPipe} from "./shared/filter.pipe";
 import { SignInComponent } from './sign-in/sign-in.component';
-import {AuthService} from "./shared/auth.service";
+import {AuthService} from "./shared/services/auth.service";
 import {AuthGuard} from "./shared/guard/auth.guard";
 
 @NgModule({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {FilterService} from "../shared/filter.service";
+import {FilterService} from "../shared/services/filter.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Game, GamesService} from "../shared/games.service";
+import {Game, GamesService} from "../shared/services/games.service";
 
 //templateUrl: './form.component.html',
 //   styleUrls: ['./form.component.css']
@@ -29,15 +29,15 @@ import {Game, GamesService} from "../shared/games.service";
 export class FormComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
-  games: Game[] = [];
+  //games: Game[] = [];
 
   constructor(private filterService: FilterService, private gamesService: GamesService) { }
 
   ngOnInit(): void {
     this.filterService.someString.subscribe(this.generate.bind(this));
-    this.gamesService.load().subscribe(games => {
+    /*this.gamesService.load().subscribe(games => {
       this.games = games;
-    })
+    })*/
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
       price: new FormControl('', Validators.required),
@@ -67,15 +67,15 @@ export class FormComponent implements OnInit {
     }
 
     this.gamesService.create(game).subscribe(game => {
-      this.games.push(game);
+      this.gamesService.games.push(game);
       this.form.reset();
     }, err => console.log(err));
   }
 
-  remove(game : Game) {
+  /*remove(game : Game) {
     this.gamesService.remove(game).subscribe(() => {
       this.games = this.games.filter(g => g.id !== game.id)
     }, err => console.log(err));
-  }
+  }*/
 
 }

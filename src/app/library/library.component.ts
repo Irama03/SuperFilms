@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FilterService} from "../shared/filter.service";
+import {FilterService} from "../shared/services/filter.service";
 
 @Component({
   selector: 'app-library',

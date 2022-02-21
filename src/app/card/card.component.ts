@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {Card} from "../games/games.component";
+import {Game} from "../shared/services/games.service";
 
 @Component({
   selector: 'app-card',
@@ -9,16 +9,17 @@ import {Card} from "../games/games.component";
 export class CardComponent implements OnInit{
 
   // @ts-ignore
-  @Input() card: Card;
+  @Input() card: Game;
   // @ts-ignore
   @Input() index: number;
 
-  title:string = 'My card title';
-  text: string = 'My sample text'
+  name: string = 'Name';
+  price: number = 0;
+  description: string = 'Description';
+  tag: string = 'Tag';
+  main: boolean = true;
 
-  cardDate: Date = new Date();
-
-  array = [1,2,3];
+  /*array = [1,2,3];
   obj = {name: 'Ira', info: {age: 19, job: 'Student'}};
   imgUrl = 'https://files.worldwildlife.org/wwfcmsprod/images/Panda_in_Tree/hero_small/99i33zyc0l_Large_WW170579.jpg';
   disabled = false;
@@ -26,18 +27,18 @@ export class CardComponent implements OnInit{
 
   getInfo(): string {
     return "This is info";
-  }
+  }*/
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.imgUrl = 'https://i.pinimg.com/222x/51/dd/b1/51ddb1b0126b6304cb6d85d01c4cb789.jpg';
-      this.disabled = true;
-    }, 3000);
+    //setTimeout(() => {
+    //  this.imgUrl = 'https://i.pinimg.com/222x/51/dd/b1/51ddb1b0126b6304cb6d85d01c4cb789.jpg';
+    //  this.disabled = true;
+    //}, 3000);
   }
 
-  changeTitle() {
-    this.title = 'Title has been changed!'
-  }
+  //changeTitle() {
+  //  this.title = 'Title has been changed!'
+  //}
 
   /*inputHandler(event: any) {
     //console.log(event);
@@ -45,7 +46,7 @@ export class CardComponent implements OnInit{
     this.title = value;
   }*/
 
-  inputHandler(value: string) {
-    this.title = value;
-  }
+  //inputHandler(value: string) {
+  //  this.title = value;
+  //}
 }

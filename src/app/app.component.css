@@ -7,3 +7,11 @@
 h1 {
   text-align: center;
 }
+
+.clickable {
+ cursor: pointer;
+}
+
+.purple {
+  color: #6C69FF;
+}

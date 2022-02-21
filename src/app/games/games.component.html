@@ -1,64 +1,19 @@
-<!-- Top navigation -->
-<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-sm-3 col-md-2 mr-0">
-    <img class="brand-logo" src="assets/logo-positronx-white.svg" alt="positronX.io Logo">
-  </a>
-</nav>
-<!-- Sidebar navigation -->
-<div class="container-fluid">
-  <div class="row">
-    <nav class="col-md-2 d-md-block bg-light sidebar">
-      <div class="sidebar-sticky">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active">
-              <i class="fas fa-user"></i>User Profile
-            </a>
-          </li>
-          <!-- Calling SignOut() Api from AuthService -->
-          <li class="nav-item">
-            <a class="nav-link" (click)="authService.SignOut()">
-              <i class="fas fa-sign-out-alt"></i>Log out
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <!-- Main content -->
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-      <div class="inner-adjust">
-        <div class="pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">User Profile</h1>
-        </div>
-        <!-- Show user data when logged in -->
-        <div class="row" *ngIf="authService.userData as user">
-          <div class="col-md-12">
-            <div class="media">
-              <img class="align-self-start mr-5 img-thumbnail rounded-circle" src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}"
-                   alt="{{user.displayName}}">
-              <div class="media-body">
-                <h1>Hello: <strong>{{(user.displayName) ? user.displayName : 'User'}}</strong></h1>
-                <p>User ID: <strong>{{user.uid}}</strong></p>
-                <p>Email: <strong>{{user.email}}</strong></p>
-                <p>Email Verified: <strong>{{user.emailVerified}}</strong></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-</div>
-
 <div class="container">
-  <h1>Hello Angular!</h1>
 
-  <hr>
+  <!--<hr>
   <div>{{filterService.someString | async | filter}}</div>
   <button (click)="go(1)">Click</button>
   <button (click)="toggleCards()">Toggle cards</button>
-  <hr>
-
+  <hr>-->
+  <br>
+  <br>
+  <br>
+  <h3>Games</h3>
+  <p>Search games</p>
+  <form>
+    <input type="text" placeholder="Search games">
+    <button class="btn btn-primary">Search</button>
+  </form>
   <app-form></app-form>
 
   <!--<div *ngIf="toggle; else hiddenCards">
@@ -67,19 +22,44 @@
               [index]="idx + 1">
     </app-card>
   </div>-->
-  <div *ngIf="cards.length; else noCards">
-    <app-card *ngFor="let iterCard of cards; let idx = index"
-              [card]="iterCard"
-              [index]="idx + 1">
-    </app-card>
+  <h3>Featured games</h3>
+  <div class="container">
+    <div class="row">
+      <div class="col-10 container">
+
+          <div *ngIf="gamesService.games.length; else noCards" class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+            <app-card *ngFor="let game of gamesService.games; let idx = index"
+                      [card]="game"
+                      [index]="idx + 1"
+                      class="col">
+            </app-card>
+          </div>
+
+      </div>
+      <div class="vr"></div>
+      <div class="col">
+        <label for="customRange" class="form-label">Filter by price</label>
+        <input type="range" class="form-range" min="0" max="500" step="50" id="customRange">
+        <p>Filter by tag</p>
+        <div class="form-check">
+          <p><input class="form-check-input" type="checkbox" name="tags" value="Indie">Indie</p>
+          <p><input class="form-check-input" type="checkbox" name="tags" value="Action">Action</p>
+          <p><input class="form-check-input" type="checkbox" name="tags" value="Adventure">Adventure</p>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <ng-template #hiddenCards>
+  <!--<ng-template #hiddenCards>
     <p>Cards are hidden</p>
-  </ng-template>
+  </ng-template>-->
 
   <ng-template #noCards>
     <p>There are no games</p>
   </ng-template>
+
+  <div>
+
+  </div>
 
 </div>

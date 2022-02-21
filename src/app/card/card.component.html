@@ -1,5 +1,11 @@
 <div class="card">
-  <h2 [ngStyle]="{
+  <h3>{{card.name}}</h3>
+  <p>{{card.price}} UAH</p>
+  <p>{{card.description}}</p>
+  <p>{{card.tag}}</p>
+  <button class="btn btn-primary" *ngIf="main">Add to library</button>
+
+  <!--<h2 [ngStyle]="{
     color: card.title.length < 5 ? 'black' : 'blue',
     fontWeight: card.title.length < 7 ? 'normal' : 'bold'
   }">{{index}} {{card.title }}</h2>
@@ -12,7 +18,7 @@
   </div>
 
   <em>{{array}}</em>
-  <!--pipe for to string-->
+  //pipe for to string
   <pre>{{obj | json}}</pre>
   <p>{{getInfo()}}</p>
   <div>
@@ -28,8 +34,6 @@
   </div>
 
   <div>
-    <!--<input type="text" (input)="inputHandler($event)" [value]="title"/>-->
-    <!--<input type="text" #myInput (input)="inputHandler(myInput.value)" [value]="title"/>-->
     <input type="text" [(ngModel)]="card.title">
-  </div>
+  </div>-->
 </div>
