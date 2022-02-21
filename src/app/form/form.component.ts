@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {FilterService} from "../shared/filter.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Game, GamesService} from "../shared/games.service";
 
 //templateUrl: './form.component.html',
 //   styleUrls: ['./form.component.css']
@@ -6,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-form',
   template: `
-    <div>
+    <form (ngSubmit)="submit()" [formGroup]="form">
       <p class="fr">A form</p>
-    </div>
+      <input type="text" formControlName="name">
+      <input type="text" formControlName="price">
+      <input type="text" formControlName="description">
+      <input type="text" formControlName="tag">
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="form.invalid">Add</button>
+    </form>
   `,
   styles: [
     `
@@ -20,9 +28,54 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup = new FormGroup({});
+  games: Game[] = [];
+
+  constructor(private filterService: FilterService, private gamesService: GamesService) { }
 
   ngOnInit(): void {
+    this.filterService.someString.subscribe(this.generate.bind(this));
+    this.gamesService.load().subscribe(games => {
+      this.games = games;
+    })
+    this.form = new FormGroup({
+      name: new FormControl('', Validators.required),
+      price: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+      tag: new FormControl('', Validators.required)
+    });
+  }
+
+  // викликається, коли someString змінює значення
+  generate(value: any) {
+    console.log(value);
+  }
+
+  submit() {
+    const {name} = this.form.value;
+    console.log(name);
+
+    const {price} = this.form.value;
+    const {description} = this.form.value;
+    const {tag} = this.form.value;
+
+    const game: Game = {
+      name,
+      price,
+      description,
+      tag
+    }
+
+    this.gamesService.create(game).subscribe(game => {
+      this.games.push(game);
+      this.form.reset();
+    }, err => console.log(err));
+  }
+
+  remove(game : Game) {
+    this.gamesService.remove(game).subscribe(() => {
+      this.games = this.games.filter(g => g.id !== game.id)
+    }, err => console.log(err));
   }
 
 }

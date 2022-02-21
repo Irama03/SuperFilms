@@ -1,14 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule, Routes} from "@angular/router";
+import {HttpClientModule} from "@angular/common/http";
+// Firebase
+import {AngularFireModule} from "@angular/fire/compat";
+import {AngularFireAuthModule} from "@angular/fire/compat/auth";
+import { environment } from '../environments/environment';
 
-// login!!!
 const appRoutes: Routes =[
-  { path: '', component: GamesComponent },
-  { path: 'library', component: LibraryComponent },
-  { path: 'friends', component: FriendsComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
+  { path: 'sign-in', component: SignInComponent },
+  { path: 'games', component: GamesComponent, canActivate: [AuthGuard] },
+  { path: 'library', component: LibraryComponent, canActivate: [AuthGuard] },
+  { path: 'friends', component: FriendsComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/' }
 ];
 
@@ -19,6 +25,10 @@ import { GamesComponent } from './games/games.component'
 import { LibraryComponent } from './library/library.component';
 import { FriendsComponent } from './friends/friends.component';
 import { ProfileComponent } from './profile/profile.component';
+import {FilterPipe} from "./shared/filter.pipe";
+import { SignInComponent } from './sign-in/sign-in.component';
+import {AuthService} from "./shared/auth.service";
+import {AuthGuard} from "./shared/guard/auth.guard";
 
 @NgModule({
   declarations: [
@@ -28,14 +38,20 @@ import { ProfileComponent } from './profile/profile.component';
     GamesComponent,
     LibraryComponent,
     FriendsComponent,
-    ProfileComponent
+    ProfileComponent,
+    FilterPipe,
+    SignInComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes)
+    ReactiveFormsModule,
+    RouterModule.forRoot(appRoutes),
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
