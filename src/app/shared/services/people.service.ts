@@ -20,6 +20,11 @@ export class PeopleService {
   public friends: Person[] = [];
 
   constructor(private http: HttpClient, private connectionsService: ConnectionsService) {
+    /*const name = "Petro Petrenko";
+    const person: Person = {
+      name
+    };
+    this.create(person).subscribe((person) => this.people.push(person));*/
     /*this.load().subscribe(people => {
       this.people = people;
       for (const person of people) {

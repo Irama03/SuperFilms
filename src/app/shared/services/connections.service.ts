@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {CreateResponse} from "./games.service";
+import {CreateResponse, Game} from "./games.service";
 import {Person} from "./people.service";
 import {AuthService} from "./auth.service";
 
 export interface Connection {
-  uid: string,
-  //userId: string,
+  userId: string,
   games: string[],
   friends: string[]
 }
@@ -23,39 +22,75 @@ export class ConnectionsService {
   public connection: Connection;
 
   constructor(private http: HttpClient, private authService: AuthService) {
-    /*const uid = authService.userData.uid;
+    const userId = authService.userData.uid;
+    console.log("AuthService in connection: " + userId);
     const games: string[] = [];
     const friends: string[] = [];
-    this.load(uid).subscribe(connection => {
+    /*const conn: Connection = {
+      userId,
+      games,
+      friends
+    };
+    this.create(conn).subscribe((con) => this.connection = con);*/
+    /*this.load(userId).subscribe(connection => {
       if (!connection) {
         const conn: Connection = {
-          uid,
+          userId,
           games,
           friends
         };
         this.create(conn).subscribe((con) => this.connection = con);
       }
-      else this.connection = connection;
+      else {
+        console.log("Got connection");
+        this.connection = connection;
+      }
     })*/
+    this.load().subscribe(connections => {
+      //this.games = games;
+      let found = false;
+      for (const con of connections) {
+        // @ts-ignore
+        if (con.userId == userId) {
+          console.log("Got connection");
+          this.connection = con;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        const conn: Connection = {
+          userId,
+          games,
+          friends
+        };
+        this.create(conn).subscribe((con) => this.connection = con);
+      }
+    })
   }
 
   // або юзера передавати
-  load(id: string): Observable<Connection> {
+  /*load(id: string): Observable<Connection> {
     // @ts-ignore
-    return this.http.get<Connection>(`${ConnectionsService.url}/${id}.json`).pipe(connection => {
-        if (!connection) {
+    return this.http.get<Connection>(`${ConnectionsService.url}.json`).pipe(connections => {
+        if (!connections) {
           //return new Connection(id, [], []);
           return null;
         }
-        return connection;
+        return connections;
       });
-      /*.pipe(map(people => {
-        if (!people) {
+  }*/
+
+  load(): Observable<Connection[]> {
+    return this.http
+      .get<Connection[]>(`${ConnectionsService.url}.json`)
+      .pipe(map(connections => {
+        if (!connections) {
           return [];
         }
         // @ts-ignore
-        return Object.keys(people).map(key => ({...people[key], id: key}))
-      }))*/
+        return Object.keys(connections).map(key => ({...connections[key], id: key}))
+      }))
   }
 
   create(connection: Connection): Observable<Connection> {
@@ -68,6 +103,6 @@ export class ConnectionsService {
 
   remove(connection: Connection): Observable<void> {
     return this.http
-      .delete<void>(`${ConnectionsService.url}/${connection.uid}.json`)
+      .delete<void>(`${ConnectionsService.url}/${connection.userId}.json`)
   }
 }

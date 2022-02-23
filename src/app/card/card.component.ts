@@ -1,5 +1,8 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {Game} from "../shared/services/games.service";
+import {Game, GamesService} from "../shared/services/games.service";
+import {FilterService} from "../shared/services/filter.service";
+import {Connection, ConnectionsService} from "../shared/services/connections.service";
+import {AuthService} from "../shared/services/auth.service";
 
 @Component({
   selector: 'app-card',
@@ -18,6 +21,26 @@ export class CardComponent implements OnInit{
   description: string = 'Description';
   tag: string = 'Tag';
   main: boolean = true;
+
+  constructor(public gamesService: GamesService, public connectionService: ConnectionsService, public authService: AuthService) { }
+
+  addToLibrary() {
+    /*const {uid} = this.authService.userData.uid;
+    const {games}: string[] = [];
+
+    const connection: Connection = {
+      uid,
+      games,
+      []
+    }
+
+    this.connectionService.create(this.authService.userData.uid);
+    this.gamesService.create(game).subscribe(game => {
+      this.gamesService.games.push(game);
+      this.form.reset();
+    }, err => console.log(err));*/
+    console.log("adding to library");
+  }
 
   /*array = [1,2,3];
   obj = {name: 'Ira', info: {age: 19, job: 'Student'}};

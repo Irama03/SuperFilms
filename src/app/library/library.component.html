@@ -1,1 +1,20 @@
-<p>library works!</p>
+<br>
+<br>
+<br>
+<h3>Games in library</h3>
+
+<div class="col-10 container">
+
+  <div *ngIf="gamesService.gamesInLibrary.length; else noCards" class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+    <app-card *ngFor="let game of gamesService.gamesInLibrary; let idx = index"
+              [card]="game"
+              [index]="idx + 1"
+              class="col">
+    </app-card>
+  </div>
+</div>
+
+<ng-template #noCards>
+  <p>There are no games</p>
+</ng-template>
+

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FilterService} from "../shared/services/filter.service";
+import {GamesService} from "../shared/services/games.service";
+import {AuthService} from "../shared/services/auth.service";
 
 @Component({
   selector: 'app-library',
@@ -9,8 +11,7 @@ import {FilterService} from "../shared/services/filter.service";
 export class LibraryComponent implements OnInit {
 
   //constructor(private filterService: FilterService) { }
-  constructor() {
-  }
+  constructor(public filterService: FilterService, public gamesService: GamesService) { }
 
   ngOnInit(): void {
     //this.filterService.someString.subscribe(this.generate.bind(this))

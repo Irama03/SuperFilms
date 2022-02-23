@@ -12,6 +12,7 @@ import {User} from "../user";
 export class AuthService {
 
   userData: any; // Save logged in user data
+
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
@@ -72,9 +73,7 @@ export class AuthService {
       })
   }
 
-  /* Setting up user data when sign in with username/password,
-  sign up with username/password and sign in with social auth
-  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
+  /* Setting up user data when sign in with username/password*/
   SetUserData(user: any) {
     console.log('In set user data: ' + user.email);
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
@@ -92,6 +91,7 @@ export class AuthService {
 
   // Sign out
   SignOut() {
+    //this.router.navigate(['sign-in']);
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
       this.router.navigate(['sign-in']);

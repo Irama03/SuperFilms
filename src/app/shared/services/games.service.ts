@@ -4,6 +4,7 @@ import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {AuthService} from "./auth.service";
 import {ConnectionsService} from "./connections.service";
+import {PeopleService} from "./people.service";
 
 export interface Game {
   id?: string
@@ -26,9 +27,14 @@ export class GamesService {
   constructor(private http: HttpClient, private connectionsService: ConnectionsService) {
     this.load().subscribe(games => {
       this.games = games;
+      const gamesInLibrary = connectionsService.connection.games;
+      console.log("gamesInLibrary: " + gamesInLibrary.length + " " + gamesInLibrary);
       for (const game of games) {
-        // @ts-ignore
-        if (connectionsService.connection.games.includes(game.id)) {
+        console.log("G: " + game.id);
+        //@ts-ignore
+        if (gamesInLibrary.includes(game.id)) {
+          console.log("push");
+
           this.gamesInLibrary.push(game);
         }
       }

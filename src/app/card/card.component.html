@@ -3,7 +3,7 @@
   <p>{{card.price}} UAH</p>
   <p>{{card.description}}</p>
   <p>{{card.tag}}</p>
-  <button class="btn btn-primary" *ngIf="main">Add to library</button>
+  <button class="btn btn-primary" *ngIf="main" (click)="addToLibrary()">Add to library</button>
 
   <!--<h2 [ngStyle]="{
     color: card.title.length < 5 ? 'black' : 'blue',
