@@ -20,7 +20,7 @@ export class PeopleService {
   public friends: Person[] = [];
 
   constructor(private http: HttpClient, private connectionsService: ConnectionsService) {
-    this.load().subscribe(people => {
+    /*this.load().subscribe(people => {
       this.people = people;
       for (const person of people) {
         // @ts-ignore
@@ -28,7 +28,7 @@ export class PeopleService {
           this.friends.push(person);
         }
       }
-    })
+    })*/
   }
 
   load(): Observable<Person[]> {

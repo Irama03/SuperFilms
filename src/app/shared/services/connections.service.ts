@@ -23,7 +23,7 @@ export class ConnectionsService {
   public connection: Connection;
 
   constructor(private http: HttpClient, private authService: AuthService) {
-    const uid = authService.userData.uid;
+    /*const uid = authService.userData.uid;
     const games: string[] = [];
     const friends: string[] = [];
     this.load(uid).subscribe(connection => {
@@ -36,7 +36,7 @@ export class ConnectionsService {
         this.create(conn).subscribe((con) => this.connection = con);
       }
       else this.connection = connection;
-    })
+    })*/
   }
 
   // або юзера передавати
