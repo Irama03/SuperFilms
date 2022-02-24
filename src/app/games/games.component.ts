@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FilterService} from "../shared/services/filter.service";
-import {GamesService} from "../shared/services/games.service";
+import {Game, GamesService} from "../shared/services/games.service";
 import {AuthService} from "../shared/services/auth.service";
 
 @Component({
@@ -9,7 +9,6 @@ import {AuthService} from "../shared/services/auth.service";
   styleUrls: ['./games.component.css']
 })
 export class GamesComponent implements OnInit {
-
 
   constructor(public filterService: FilterService, public gamesService: GamesService, public authService: AuthService) { }
 

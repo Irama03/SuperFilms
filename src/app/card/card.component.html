@@ -4,6 +4,10 @@
   <p>{{card.description}}</p>
   <p>{{card.tag}}</p>
   <button class="btn btn-primary" *ngIf="main" (click)="addToLibrary()">Add to library</button>
+  <div class="btn-group" role="group" *ngIf="!main">
+    <button class="btn btn-primary me-2">Download</button>
+    <button class="btn btn-primary">Share</button>
+  </div>
 
   <!--<h2 [ngStyle]="{
     color: card.title.length < 5 ? 'black' : 'blue',

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {CreateResponse, Game} from "./games.service";
+import {CreateResponse, Game, GamesService} from "./games.service";
 import {Person} from "./people.service";
 import {AuthService} from "./auth.service";
 
@@ -19,9 +19,10 @@ export class ConnectionsService {
 
   static url = 'https://supergames-8b60f-default-rtdb.europe-west1.firebasedatabase.app/connections';
   // @ts-ignore
-  public connection: Connection;
+  public connection: BehaviorSubject<Connection> = new BehaviorSubject<Connection>();
+  //public connection: Connection;
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient, private authService: AuthService) {//}, private gamesService: GamesService) {
     const userId = authService.userData.uid;
     console.log("AuthService in connection: " + userId);
     const games: string[] = [];
@@ -32,20 +33,6 @@ export class ConnectionsService {
       friends
     };
     this.create(conn).subscribe((con) => this.connection = con);*/
-    /*this.load(userId).subscribe(connection => {
-      if (!connection) {
-        const conn: Connection = {
-          userId,
-          games,
-          friends
-        };
-        this.create(conn).subscribe((con) => this.connection = con);
-      }
-      else {
-        console.log("Got connection");
-        this.connection = connection;
-      }
-    })*/
     this.load().subscribe(connections => {
       //this.games = games;
       let found = false;
@@ -53,8 +40,19 @@ export class ConnectionsService {
         // @ts-ignore
         if (con.userId == userId) {
           console.log("Got connection");
-          this.connection = con;
+          //this.connection = con;
+          this.connection.next(con);
           found = true;
+
+          /*for (const game of gamesService.games) {
+            console.log("G: " + game.id);
+            //@ts-ignore
+            if (connection.games.includes(game.id)) {
+              console.log("push");
+              gamesService.gamesInLibrary.push(game);
+            }
+          }*/
+
           break;
         }
       }
@@ -64,7 +62,7 @@ export class ConnectionsService {
           games,
           friends
         };
-        this.create(conn).subscribe((con) => this.connection = con);
+        this.create(conn).subscribe((con) => this.connection.next(con));
       }
     })
   }

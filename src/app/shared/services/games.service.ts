@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {AuthService} from "./auth.service";
-import {ConnectionsService} from "./connections.service";
+import {Connection, ConnectionsService} from "./connections.service";
 import {PeopleService} from "./people.service";
 
 export interface Game {
@@ -24,10 +24,10 @@ export class GamesService {
   public games: Game[] = [];
   public gamesInLibrary: Game[] = [];
 
-  constructor(private http: HttpClient, private connectionsService: ConnectionsService) {
+  constructor(private http: HttpClient) { //, private connectionsService: ConnectionsService) {
     this.load().subscribe(games => {
       this.games = games;
-      const gamesInLibrary = connectionsService.connection.games;
+      /*const gamesInLibrary = connectionsService.connection.games;
       console.log("gamesInLibrary: " + gamesInLibrary.length + " " + gamesInLibrary);
       for (const game of games) {
         console.log("G: " + game.id);
@@ -35,6 +35,22 @@ export class GamesService {
         if (gamesInLibrary.includes(game.id)) {
           console.log("push");
 
+          this.gamesInLibrary.push(game);
+        }
+      }*/
+    })
+  }
+
+  fillGamesInLibrary(connection: Connection) {
+    console.log("This: " + this);
+    console.log("this.games: " + this.games);
+    this.load().subscribe(games => {
+      this.games = games;
+      for (const game of this.games) {
+        console.log("G: " + game.id);
+        //@ts-ignore
+        if (connection.games.includes(game.id)) {
+          console.log("push");
           this.gamesInLibrary.push(game);
         }
       }

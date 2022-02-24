@@ -1,1 +1,16 @@
-<p>friends works!</p>
+<div class="container">
+  <br>
+  <br>
+  <br>
+  <div *ngIf="peopleService.people.length; else noPeople" class="d-flex flex-column">
+    <app-person *ngFor="let person of peopleService.people"
+              [person]="person"
+              [isFriend]=false
+              class="p-2">
+    </app-person>
+  </div>
+
+  <ng-template #noPeople>
+    <p>There are no games</p>
+  </ng-template>
+</div>

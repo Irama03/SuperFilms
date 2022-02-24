@@ -61,7 +61,7 @@ export class AuthService {
   }
 
   // Auth logic to run auth providers
-  AuthLogin(provider: any) {
+  /*AuthLogin(provider: any) {
     return this.afAuth.signInWithPopup(provider)
       .then((result) => {
         this.ngZone.run(() => {
@@ -71,7 +71,7 @@ export class AuthService {
       }).catch((error) => {
         window.alert(error)
       })
-  }
+  }*/
 
   /* Setting up user data when sign in with username/password*/
   SetUserData(user: any) {

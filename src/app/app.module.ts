@@ -11,7 +11,7 @@ import { environment } from '../environments/environment';
 const appRoutes: Routes =[
   { path: '', redirectTo: '/games', pathMatch: 'full' },
   { path: 'sign-in', component: SignInComponent },
-  { path: 'games', component: GamesComponent, canActivate: [AuthGuard] },
+  { path: 'games', component: GamesComponent , canActivate: [AuthGuard] },
   { path: 'library', component: LibraryComponent, canActivate: [AuthGuard] },
   { path: 'friends', component: FriendsComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
@@ -29,6 +29,7 @@ import {FilterPipe} from "./shared/filter.pipe";
 import { SignInComponent } from './sign-in/sign-in.component';
 import {AuthService} from "./shared/services/auth.service";
 import {AuthGuard} from "./shared/guard/auth.guard";
+import { PersonComponent } from './person/person.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {AuthGuard} from "./shared/guard/auth.guard";
     FriendsComponent,
     ProfileComponent,
     FilterPipe,
-    SignInComponent
+    SignInComponent,
+    PersonComponent
   ],
   imports: [
     BrowserModule,

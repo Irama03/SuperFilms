@@ -20,9 +20,9 @@ export class CardComponent implements OnInit{
   price: number = 0;
   description: string = 'Description';
   tag: string = 'Tag';
-  main: boolean = true;
+  @Input() main: boolean = true;
 
-  constructor(public gamesService: GamesService, public connectionService: ConnectionsService, public authService: AuthService) { }
+  constructor(public gamesService: GamesService, /*public connectionService: ConnectionsService,*/ public authService: AuthService) { }
 
   addToLibrary() {
     /*const {uid} = this.authService.userData.uid;
