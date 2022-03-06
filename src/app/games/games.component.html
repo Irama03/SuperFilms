@@ -37,16 +37,16 @@
 
       </div>
       <div class="vr"></div>
-      <div class="col">
+      <form class="col" [formGroup]="filterForm">
         <label for="customRange" class="form-label">Filter by price</label>
-        <input type="range" class="form-range" min="0" max="500" step="50" id="customRange">
+        <input type="range" class="form-range" min="0" max="500" step="50" id="customRange" (change)="priceRangeChanged()" formControlName="priceRange">
         <p>Filter by tag</p>
         <div class="form-check">
-          <p><input class="form-check-input" type="checkbox" name="tags" value="Indie">Indie</p>
-          <p><input class="form-check-input" type="checkbox" name="tags" value="Action">Action</p>
-          <p><input class="form-check-input" type="checkbox" name="tags" value="Adventure">Adventure</p>
+          <p><input class="form-check-input" type="checkbox" name="tags" value="Indie" formControlName="indie" (change)="indieChanged()">Indie</p>
+          <p><input class="form-check-input" type="checkbox" name="tags" value="Action" formControlName="action" (change)="actionChanged()">Action</p>
+          <p><input class="form-check-input" type="checkbox" name="tags" value="Adventure" formControlName="adventure" (change)="adventureChanged()">Adventure</p>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 

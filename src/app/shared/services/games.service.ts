@@ -18,15 +18,41 @@ export interface CreateResponse {
   name: string
 }
 
+// @ts-ignore
+const deepCopyFunction = (inObject) => {
+  let value;
+  let key;
+  if (typeof inObject !== 'object' || inObject === null) {
+    return inObject;
+  }
+  const outObject = Array.isArray(inObject) ? [] : {};
+  for (key in inObject) {
+    value = inObject[key];
+    // @ts-ignore
+    outObject[key] = deepCopyFunction(value);
+  }
+  return outObject;
+};
+
 @Injectable({providedIn: 'root'})
 export class GamesService {
   static url = 'https://supergames-8b60f-default-rtdb.europe-west1.firebasedatabase.app/games';
+  public initialGames: Game[] = [];
   public games: Game[] = [];
   public gamesInLibrary: Game[] = [];
 
+  public filters = {
+    findApplied: false,
+    findStr: '',
+    filterApplied: false,
+    priceChosen: 0,
+    filtersChosen: []
+  }
+
   constructor(private http: HttpClient) { //, private connectionsService: ConnectionsService) {
     this.load().subscribe(games => {
-      this.games = games;
+      this.initialGames = games;
+      this.games = deepCopyFunction(games);
       /*const gamesInLibrary = connectionsService.connection.games;
       console.log("gamesInLibrary: " + gamesInLibrary.length + " " + gamesInLibrary);
       for (const game of games) {
@@ -43,10 +69,10 @@ export class GamesService {
 
   fillGamesInLibrary(connection: Connection) {
     console.log("This: " + this);
-    console.log("this.games: " + this.games);
+    console.log("this.games: " + this.initialGames);
     this.load().subscribe(games => {
-      this.games = games;
-      for (const game of this.games) {
+      this.initialGames = games;
+      for (const game of this.initialGames) {
         console.log("G: " + game.id);
         //@ts-ignore
         if (connection.games.includes(game.id)) {

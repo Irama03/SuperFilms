@@ -17,13 +17,13 @@ export class LibraryComponent implements OnInit {
   public gamesInLibrary: Game[] = [];
 
   //constructor(private filterService: FilterService) { }
-  constructor(private http: HttpClient, public filterService: FilterService, public gamesService: GamesService, public connectionService: ConnectionsService) {
+  constructor(private http: HttpClient, public filterService: FilterService, public gamesService: GamesService, public connectionsService: ConnectionsService) {
 
   }
 
   ngOnInit(): void {
     //this.connectionService.connection.subscribe(this.gamesService.fillGamesInLibrary.bind(this.connectionService.connection));
-    this.connectionService.connection.subscribe(this.generate.bind(this));
+    this.connectionsService.connection.subscribe(this.generate.bind(this));
     //this.filterService.someString.subscribe(this.generate.bind(this))
   }
 

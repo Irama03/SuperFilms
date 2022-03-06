@@ -67,7 +67,7 @@ export class FormComponent implements OnInit {
     }
 
     this.gamesService.create(game).subscribe(game => {
-      this.gamesService.games.push(game);
+      this.gamesService.initialGames.push(game);
       this.form.reset();
     }, err => console.log(err));
   }
