@@ -12,7 +12,9 @@ import {Game, GamesService} from "../shared/services/games.service";
     <form (ngSubmit)="submit()" [formGroup]="form">
       <p class="fr">A form</p>
       <input type="text" formControlName="name">
+      <p>Price</p>
       <input type="text" formControlName="price">
+      <p>Description</p>
       <input type="text" formControlName="description">
       <input type="text" formControlName="tag">
       <button type="submit" class="btn btn-primary btn-block" [disabled]="form.invalid">Add</button>

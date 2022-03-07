@@ -2,6 +2,15 @@
   <br>
   <br>
   <br>
+  <h3>Friends</h3>
+  <p>Search Friends</p>
+  <form [formGroup]="findForm" (ngSubmit)="find()">
+    <input type="text" placeholder="Search Friends" formControlName="findStr">
+    <button class="btn btn-primary" type="submit">Search</button>
+  </form>
+  <br>
+  <h3 *ngIf="!myFriends">Search Friends: </h3>
+  <h3 *ngIf="myFriends">My Friends</h3>
   <div *ngIf="peopleService.people.length; else noPeople" class="d-flex flex-column">
     <app-person *ngFor="let person of peopleService.people"
               [person]="person"
@@ -11,6 +20,6 @@
   </div>
 
   <ng-template #noPeople>
-    <p>There are no games</p>
+    <p>There are no people</p>
   </ng-template>
 </div>

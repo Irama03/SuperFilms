@@ -9,8 +9,6 @@
     <p>Password</p>
     <input type="password" class="formControl" placeholder="Password" #userPassword required>
   </div>
-
-  <!-- Calling SignIn Api from AuthService -->
   <div class="formGroup">
     <input type="button" class="btn btn-primary mt-3" value="Sign in" (click)="authService.SignIn(userName.value, userPassword.value)">
   </div>

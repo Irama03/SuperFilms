@@ -10,9 +10,9 @@
   <br>
   <h3>Games</h3>
   <p>Search games</p>
-  <form>
-    <input type="text" placeholder="Search games">
-    <button class="btn btn-primary">Search</button>
+  <form [formGroup]="findForm" (ngSubmit)="find()">
+    <input type="text" placeholder="Search games" formControlName="findStr">
+    <button class="btn btn-primary" type="submit">Search</button>
   </form>
   <app-form></app-form>
 

@@ -3,13 +3,16 @@ import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {CreateResponse, Game, GamesService} from "./games.service";
-import {Person} from "./people.service";
 import {AuthService} from "./auth.service";
 
 export interface Connection {
+  id?: string,
   userId: string,
   games: string[],
-  friends: string[]
+  friends: string[],
+  email: string,
+  name: string,
+  age: string
 }
 
 @Injectable({
@@ -27,6 +30,9 @@ export class ConnectionsService {
     console.log("AuthService in connection: " + userId);
     const games: string[] = [];
     const friends: string[] = [];
+    const email: string = authService.userData.email;
+    const name: string = '';
+    const age: string = '';
     /*const conn: Connection = {
       userId,
       games,
@@ -60,7 +66,10 @@ export class ConnectionsService {
         const conn: Connection = {
           userId,
           games,
-          friends
+          friends,
+          email,
+          name,
+          age
         };
         this.create(conn).subscribe((con) => this.connection.next(con));
       }
@@ -88,7 +97,7 @@ export class ConnectionsService {
         }
         // @ts-ignore
         return Object.keys(connections).map(key => ({...connections[key], id: key}))
-      }))
+      }));
   }
 
   create(connection: Connection): Observable<Connection> {
@@ -96,11 +105,39 @@ export class ConnectionsService {
       .post<CreateResponse>(`${ConnectionsService.url}.json`, connection)
       .pipe(map(res => {
         return {...connection, id: res.name}
-      }))
+      }));
   }
 
-  remove(connection: Connection): Observable<void> {
+  /*remove(connection: Connection): Observable<void> {
     return this.http
-      .delete<void>(`${ConnectionsService.url}/${connection.userId}.json`)
+      .delete<void>(`${ConnectionsService.url}/${connection.id}.json`);
+  }*/
+
+  updateNameAndAge(userName: string, userAge: string): void {
+    const val = this.connection.value;
+    const id = val.id;
+    const userId = val.userId;
+    const games = val.games;
+    const friends = val.friends;
+    const email = val.email;
+    const name = userName;
+    const age = userAge;
+    console.log('Age: ' + age);
+    const conn: Connection = {
+      id,
+      userId,
+      games,
+      friends,
+      email,
+      name,
+      age
+    }
+    this.http
+      .put<Connection>(`${ConnectionsService.url}/${conn.id}.json`, conn)
+      .subscribe(connection => {
+        console.log('Age changed: ' + connection.age);
+        //error - cycle
+        //this.connection.next(connection);
+      });
   }
 }

@@ -12,11 +12,13 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 export class GamesComponent implements OnInit {
 
   toggle = true;
+  findForm: FormGroup = new FormGroup({});
   filterForm: FormGroup = new FormGroup({});
 
-  constructor(public filterService: FilterService, public gamesService: GamesService, public authService: AuthService) { }
+  constructor(public filterService: FilterService, public gamesService: GamesService/*, public authService: AuthService*/) { }
 
   ngOnInit(): void {
+    this.findForm = new FormGroup({findStr: new FormControl('')})
     this.filterForm = new FormGroup({
       priceRange: new FormControl(0),
       indie: new FormControl(false),
@@ -24,12 +26,6 @@ export class GamesComponent implements OnInit {
       adventure: new FormControl(false)
     });
   }
-
-  /*cards: Card[] = [
-    {title: 'Card1', text: 'This is card 1'},
-    {title: 'Card2', text: 'This is card 2'},
-    {title: 'Card3', text: 'This is last card'}
-  ]*/
 
   toggleCards(){
     this.toggle = !this.toggle;
@@ -40,19 +36,39 @@ export class GamesComponent implements OnInit {
     this.filterService.changeSomeString(dir);
   }
 
+  find() {
+    const {findStr} = this.findForm.value;
+    const findStr0 = findStr.trim().toLowerCase();
+    this.gamesService.filters.findStr = findStr0;
+    if (findStr0.length !== 0)
+      this.gamesService.filters.findApplied = true;
+    else this.gamesService.filters.findApplied = false;
+    this.filterChanged();
+  }
+
+  filtersNotApplied() {
+    return this.gamesService.filters.priceChosen === 0 && this.gamesService.filters.filtersChosen.length === 0;
+  }
+
   priceRangeChanged() {
     const {priceRange} = this.filterForm.value;
     this.gamesService.filters.priceChosen = priceRange;
+    if (this.filtersNotApplied())
+      this.gamesService.filters.filterApplied = false;
+    else if (priceRange > 0) this.gamesService.filters.filterApplied = true;
     this.filterChanged();
   }
 
   indieChanged() {
     const {indie} = this.filterForm.value;
     if (!indie){ // @ts-ignore
-      this.gamesService.filters.filtersChosen.splice(this.gamesService.filters.filtersChosen.indexOf('indie'), 1);
+      this.gamesService.filters.filtersChosen.splice(this.gamesService.filters.filtersChosen.indexOf('Indie'), 1);
+      if (this.filtersNotApplied())
+        this.gamesService.filters.filterApplied = false;
     }
     else { // @ts-ignore
-      this.gamesService.filters.filtersChosen.push('indie');
+      this.gamesService.filters.filtersChosen.push('Indie');
+      this.gamesService.filters.filterApplied = true;
     }
     this.filterChanged();
   }
@@ -60,10 +76,13 @@ export class GamesComponent implements OnInit {
   actionChanged() {
     const {action} = this.filterForm.value;
     if (!action){ // @ts-ignore
-      this.gamesService.filters.filtersChosen.splice(this.gamesService.filters.filtersChosen.indexOf('action'), 1);
+      this.gamesService.filters.filtersChosen.splice(this.gamesService.filters.filtersChosen.indexOf('Action'), 1);
+      if (this.filtersNotApplied())
+        this.gamesService.filters.filterApplied = false;
     }
     else { // @ts-ignore
-      this.gamesService.filters.filtersChosen.push('action');
+      this.gamesService.filters.filtersChosen.push('Action');
+      this.gamesService.filters.filterApplied = true;
     }
     this.filterChanged();
   }
@@ -71,10 +90,13 @@ export class GamesComponent implements OnInit {
   adventureChanged() {
     const {adventure} = this.filterForm.value;
     if (!adventure){ // @ts-ignore
-      this.gamesService.filters.filtersChosen.splice(this.gamesService.filters.filtersChosen.indexOf('adventure'), 1);
+      this.gamesService.filters.filtersChosen.splice(this.gamesService.filters.filtersChosen.indexOf('Adventure'), 1);
+      if (this.filtersNotApplied())
+        this.gamesService.filters.filterApplied = false;
     }
     else { // @ts-ignore
-      this.gamesService.filters.filtersChosen.push('adventure');
+      this.gamesService.filters.filtersChosen.push('Adventure');
+      this.gamesService.filters.filterApplied = true;
     }
     this.filterChanged();
   }
@@ -85,8 +107,7 @@ export class GamesComponent implements OnInit {
     for (const game of this.gamesService.initialGames) {
       let suites: boolean = true;
       if (filters.findApplied) {
-        const findStr0 = filters.findStr.trim().toLowerCase();
-        if (!game.name.toLowerCase().includes(findStr0) || !game.description.toLowerCase().includes(findStr0)) {
+        if (!game.name.toLowerCase().includes(filters.findStr) && !game.description.toLowerCase().includes(filters.findStr)) {
           suites = false;
           continue;
         }
@@ -108,6 +129,9 @@ export class GamesComponent implements OnInit {
       }
       if (suites)
         this.gamesService.games.push(game);
+      else {
+        console.log(game.name + ': ' + game.tag);
+      }
     }
   }
 }
