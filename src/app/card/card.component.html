@@ -1,6 +1,6 @@
 <div class="card">
   <h3>{{card.name}}</h3>
-  <p>{{card.price}} UAH</p>
+  <p *ngIf="main">{{card.price}} UAH</p>
   <p>{{card.description}}</p>
   <p>{{card.tag}}</p>
   <button class="btn btn-primary" *ngIf="main" (click)="addToLibrary()">Add to library</button>

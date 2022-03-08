@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {AuthService} from "./auth.service";
 import {Connection, ConnectionsService} from "./connections.service";
 import {PeopleService} from "./people.service";
+import {deepCopyFunction} from "../utils";
 
 export interface Game {
   id?: string
@@ -17,22 +18,6 @@ export interface Game {
 export interface CreateResponse {
   name: string
 }
-
-// @ts-ignore
-const deepCopyFunction = (inObject) => {
-  let value;
-  let key;
-  if (typeof inObject !== 'object' || inObject === null) {
-    return inObject;
-  }
-  const outObject = Array.isArray(inObject) ? [] : {};
-  for (key in inObject) {
-    value = inObject[key];
-    // @ts-ignore
-    outObject[key] = deepCopyFunction(value);
-  }
-  return outObject;
-};
 
 @Injectable({providedIn: 'root'})
 export class GamesService {
@@ -49,25 +34,54 @@ export class GamesService {
     filtersChosen: []
   }
 
-  constructor(private http: HttpClient) { //, private connectionsService: ConnectionsService) {
+  constructor(public connectionsService: ConnectionsService) {
     this.load().subscribe(games => {
-      this.initialGames = games;
-      this.games = deepCopyFunction(games);
-      /*const gamesInLibrary = connectionsService.connection.games;
-      console.log("gamesInLibrary: " + gamesInLibrary.length + " " + gamesInLibrary);
-      for (const game of games) {
-        console.log("G: " + game.id);
-        //@ts-ignore
-        if (gamesInLibrary.includes(game.id)) {
-          console.log("push");
-
-          this.gamesInLibrary.push(game);
+      //this.initialGames = games;
+      //this.games = deepCopyFunction(games);
+      let gamesInLibrary;
+      if (connectionsService.connection.value === undefined) {
+        connectionsService.load().subscribe(connections => {
+          for (const con of connections) {
+            // @ts-ignore
+            if (con.userId == connectionsService.authService.userData.uid) {
+              console.log("Got connection in games");
+              connectionsService.connection.next(con);
+              gamesInLibrary = connectionsService.connection.value.games;
+              console.log("gamesInLibrary load: " + gamesInLibrary.length + " " + gamesInLibrary);
+              for (const game of games) {
+                console.log("G: " + game.id);
+                //@ts-ignore
+                if (gamesInLibrary.includes(game.id)) {
+                  console.log("push");
+                  this.gamesInLibrary.push(game);
+                }
+                else this.initialGames.push(game);
+              }
+              this.games = deepCopyFunction(this.initialGames);
+              break;
+            }
+          }
+        })
+      }
+      else {
+        gamesInLibrary = connectionsService.connection.value.games;
+        console.log("gamesInLibrary: " + gamesInLibrary.length + " " + gamesInLibrary);
+        for (const game of games) {
+          console.log("G: " + game.id);
+          //@ts-ignore
+          if (gamesInLibrary.includes(game.id)) {
+            console.log("push");
+            this.gamesInLibrary.push(game);
+          }
+          else this.initialGames.push(game);
         }
-      }*/
+        this.games = deepCopyFunction(this.initialGames);
+      }
+
     })
   }
 
-  fillGamesInLibrary(connection: Connection) {
+  /*fillGamesInLibrary(connection: Connection) {
     console.log("This: " + this);
     console.log("this.games: " + this.initialGames);
     this.load().subscribe(games => {
@@ -81,10 +95,10 @@ export class GamesService {
         }
       }
     })
-  }
+  }*/
 
   load(): Observable<Game[]> {
-    return this.http
+    return this.connectionsService.http
       .get<Game[]>(`${GamesService.url}.json`)
       .pipe(map(games => {
         if (!games) {
@@ -96,7 +110,7 @@ export class GamesService {
   }
 
   create(game: Game): Observable<Game> {
-    return this.http
+    return this.connectionsService.http
       .post<CreateResponse>(`${GamesService.url}.json`, game)
       .pipe(map(res => {
         return {...game, id: res.name}
@@ -104,7 +118,7 @@ export class GamesService {
   }
 
   remove(game: Game): Observable<void> {
-    return this.http
+    return this.connectionsService.http
       .delete<void>(`${GamesService.url}/${game.id}.json`)
   }
 

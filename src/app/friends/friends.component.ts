@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PeopleService } from "../shared/services/people.service";
+import {PeopleService, Person} from "../shared/services/people.service";
 import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
@@ -10,7 +10,6 @@ import {FormControl, FormGroup} from "@angular/forms";
 export class FriendsComponent implements OnInit {
 
   findForm: FormGroup = new FormGroup({});
-  myFriends: boolean = true;
 
   constructor(public peopleService: PeopleService) { }
 
@@ -21,11 +20,24 @@ export class FriendsComponent implements OnInit {
   find() {
     const {findStr} = this.findForm.value;
     const findStr0 = findStr.trim().toLowerCase();
-    /*this.gamesService.filters.findStr = findStr0;
-    if (findStr0.length !== 0)
-      this.gamesService.filters.findApplied = true;
-    else this.gamesService.filters.findApplied = false;
-    this.filterChanged();*/
+    this.peopleService.findStr = findStr0;
+    if (findStr0.length !== 0) {
+      this.peopleService.findApplied = true;
+      this.peopleService.people = [];
+      for (const person of this.peopleService.initialPeople) {
+        if (person.name.toLowerCase().includes(findStr0))
+          this.peopleService.people.push(person);
+      }
+    }
+    else {
+      this.peopleService.findApplied = false;
+      this.peopleService.people = this.peopleService.friends;
+    }
+  }
+
+  isFriend(person: Person) {
+    console.log("Quant of friends: " + this.peopleService.friends.length);
+    return this.peopleService.friends.includes(person);
   }
 
 }

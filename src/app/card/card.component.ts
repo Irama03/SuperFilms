@@ -15,14 +15,9 @@ export class CardComponent implements OnInit{
   @Input() card: Game;
   // @ts-ignore
   @Input() index: number;
-
-  name: string = 'Name';
-  price: number = 0;
-  description: string = 'Description';
-  tag: string = 'Tag';
   @Input() main: boolean = true;
 
-  constructor(public gamesService: GamesService, /*public connectionService: ConnectionsService,*/ public authService: AuthService) { }
+  constructor(public gamesService: GamesService) { }
 
   addToLibrary() {
     /*const {uid} = this.authService.userData.uid;
@@ -39,7 +34,13 @@ export class CardComponent implements OnInit{
       this.gamesService.games.push(game);
       this.form.reset();
     }, err => console.log(err));*/
-    console.log("adding to library");
+    this.gamesService.initialGames.splice(this.gamesService.initialGames.indexOf(this.card), 1);
+    //something strange
+    this.gamesService.games.splice(this.gamesService.games.indexOf(this.card), 1);
+    this.gamesService.gamesInLibrary.push(this.card);
+    // @ts-ignore
+    this.gamesService.connectionsService.updateGamesInLibrary(this.gamesService.gamesInLibrary.map(game => game.id));
+    console.log("Added to library");
   }
 
   /*array = [1,2,3];

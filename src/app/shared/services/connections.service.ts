@@ -25,55 +25,57 @@ export class ConnectionsService {
   public connection: BehaviorSubject<Connection> = new BehaviorSubject<Connection>();
   //public connection: Connection;
 
-  constructor(private http: HttpClient, private authService: AuthService) {//}, private gamesService: GamesService) {
-    const userId = authService.userData.uid;
-    console.log("AuthService in connection: " + userId);
-    const games: string[] = [];
-    const friends: string[] = [];
-    const email: string = authService.userData.email;
-    const name: string = '';
-    const age: string = '';
-    /*const conn: Connection = {
-      userId,
-      games,
-      friends
-    };
-    this.create(conn).subscribe((con) => this.connection = con);*/
-    this.load().subscribe(connections => {
-      //this.games = games;
-      let found = false;
-      for (const con of connections) {
-        // @ts-ignore
-        if (con.userId == userId) {
-          console.log("Got connection");
-          //this.connection = con;
-          this.connection.next(con);
-          found = true;
+  constructor(public http: HttpClient, public authService: AuthService) {//}, private gamesService: GamesService) {
+    if (authService.isLoggedIn) {
+      const userId = authService.userData.uid;
+      console.log("AuthService in connection: " + userId);
+      const games: string[] = [];
+      const friends: string[] = [];
+      const email: string = authService.userData.email;
+      const name: string = '';
+      const age: string = '';
+      /*const conn: Connection = {
+        userId,
+        games,
+        friends
+      };
+      this.create(conn).subscribe((con) => this.connection = con);*/
+      this.load().subscribe(connections => {
+        //this.games = games;
+        let found = false;
+        for (const con of connections) {
+          // @ts-ignore
+          if (con.userId == userId) {
+            console.log("Got connection");
+            //this.connection = con;
+            this.connection.next(con);
+            found = true;
 
-          /*for (const game of gamesService.games) {
-            console.log("G: " + game.id);
-            //@ts-ignore
-            if (connection.games.includes(game.id)) {
-              console.log("push");
-              gamesService.gamesInLibrary.push(game);
-            }
-          }*/
+            /*for (const game of gamesService.games) {
+              console.log("G: " + game.id);
+              //@ts-ignore
+              if (connection.games.includes(game.id)) {
+                console.log("push");
+                gamesService.gamesInLibrary.push(game);
+              }
+            }*/
 
-          break;
+            break;
+          }
         }
-      }
-      if (!found) {
-        const conn: Connection = {
-          userId,
-          games,
-          friends,
-          email,
-          name,
-          age
-        };
-        this.create(conn).subscribe((con) => this.connection.next(con));
-      }
-    })
+        if (!found) {
+          const conn: Connection = {
+            userId,
+            games,
+            friends,
+            email,
+            name,
+            age
+          };
+          this.create(conn).subscribe((con) => this.connection.next(con));
+        }
+      })
+    }
   }
 
   // або юзера передавати
@@ -137,7 +139,59 @@ export class ConnectionsService {
       .subscribe(connection => {
         console.log('Age changed: ' + connection.age);
         //error - cycle
-        //this.connection.next(connection);
+        this.connection.next(connection);
+      });
+  }
+
+  updateGamesInLibrary(gamesL: string[]): void {
+    const val = this.connection.value;
+    const id = val.id;
+    const userId = val.userId;
+    const games = gamesL;
+    const friends = val.friends;
+    const email = val.email;
+    const name = val.name;
+    const age = val.age;
+    const conn: Connection = {
+      id,
+      userId,
+      games,
+      friends,
+      email,
+      name,
+      age
+    }
+    this.http
+      .put<Connection>(`${ConnectionsService.url}/${conn.id}.json`, conn)
+      .subscribe(connection => {
+        console.log('Games in l changed');
+        this.connection.next(connection);
+      });
+  }
+
+  updateFriends(friends0: string[]): void {
+    const val = this.connection.value;
+    const id = val.id;
+    const userId = val.userId;
+    const games = val.games;
+    const friends = friends0;
+    const email = val.email;
+    const name = val.name;
+    const age = val.age;
+    const conn: Connection = {
+      id,
+      userId,
+      games,
+      friends,
+      email,
+      name,
+      age
+    }
+    this.http
+      .put<Connection>(`${ConnectionsService.url}/${conn.id}.json`, conn)
+      .subscribe(connection => {
+        console.log('Friends changed');
+        this.connection.next(connection);
       });
   }
 }

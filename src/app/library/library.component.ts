@@ -14,47 +14,8 @@ import {HttpClient} from "@angular/common/http";
 })
 export class LibraryComponent implements OnInit {
 
-  public gamesInLibrary: Game[] = [];
+  constructor(public gamesService: GamesService) {}
 
-  //constructor(private filterService: FilterService) { }
-  constructor(private http: HttpClient, public filterService: FilterService, public gamesService: GamesService, public connectionsService: ConnectionsService) {
-
-  }
-
-  ngOnInit(): void {
-    //this.connectionService.connection.subscribe(this.gamesService.fillGamesInLibrary.bind(this.connectionService.connection));
-    this.connectionsService.connection.subscribe(this.generate.bind(this));
-    //this.filterService.someString.subscribe(this.generate.bind(this))
-  }
-
-  generate(value: any) {
-    console.log(value);
-    this.load().subscribe(games => {
-      for (const game of games) {
-        //console.log("G: " + game.id);
-        //@ts-ignore
-        if (value.games.includes(game.id)) {
-          console.log("push");
-          this.gamesInLibrary.push(game);
-        }
-      }
-      //this.gamesInLibrary = gamesInLibrary;
-
-    })
-    //console.log(this.gamesService.games);
-    //this.gamesService.fillGamesInLibrary(value);
-  }
-
-  load(): Observable<Game[]> {
-    return this.http
-      .get<Game[]>(`${GamesService.url}.json`)
-      .pipe(map(games => {
-        if (!games) {
-          return [];
-        }
-        // @ts-ignore
-        return Object.keys(games).map(key => ({...games[key], id: key}))
-      }))
-  }
+  ngOnInit(): void {}
 
 }
