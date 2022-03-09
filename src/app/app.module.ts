@@ -15,7 +15,7 @@ const appRoutes: Routes =[
   { path: 'library', component: LibraryComponent, canActivate: [AuthGuard] },
   { path: 'friends', component: FriendsComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: '/' }
+  { path: '**', redirectTo: '/games' }
 ];
 
 import { AppComponent } from './app.component';

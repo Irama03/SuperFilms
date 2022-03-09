@@ -36,6 +36,8 @@ export class AuthService {
     })
   }
 
+  public allowNavigating: boolean = false;
+
   // Sign in with email/password
   SignIn(email: any, password: any) {
     console.log('In sign in');
@@ -44,7 +46,8 @@ export class AuthService {
         console.log('Signed in');
         this.ngZone.run(() => {
           console.log('Before navigating');
-          this.router.navigate(['games']).then(() => console.log('Navigated')).catch(err => console.log(err));
+          this.allowNavigating = true;
+          this.router.navigate(['games']).then(() => {console.log('Navigated'); this.allowNavigating = false;}).catch(err => console.log(err));
         });
         this.SetUserData(result.user);
       }).catch((error) => {

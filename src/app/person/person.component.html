@@ -1,5 +1,5 @@
 <div class="border border-dark">
   <span>{{person.name}}</span>
-  <button class="btn btn-primary ms-2" *ngIf="!isFriend">Add Friend</button>
-  <button class="btn btn-danger ms-2" *ngIf="isFriend">Remove Friend</button>
+  <button class="btn btn-primary ms-2" *ngIf="!isFriend" (click)="addFriend()">Add Friend</button>
+  <button class="btn btn-danger ms-2" *ngIf="isFriend" (click)="removeFriend()">Remove Friend</button>
 </div>

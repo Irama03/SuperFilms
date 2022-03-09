@@ -24,7 +24,7 @@ export class PeopleService {
   public findApplied = false;
   public findStr = '';
 
-  constructor(private connectionsService: ConnectionsService) {
+  constructor(public connectionsService: ConnectionsService) {
     /*const name = "Pavlo Pavlenko";
     const person: Person = {
       name

@@ -20,20 +20,6 @@ export class CardComponent implements OnInit{
   constructor(public gamesService: GamesService) { }
 
   addToLibrary() {
-    /*const {uid} = this.authService.userData.uid;
-    const {games}: string[] = [];
-
-    const connection: Connection = {
-      uid,
-      games,
-      []
-    }
-
-    this.connectionService.create(this.authService.userData.uid);
-    this.gamesService.create(game).subscribe(game => {
-      this.gamesService.games.push(game);
-      this.form.reset();
-    }, err => console.log(err));*/
     this.gamesService.initialGames.splice(this.gamesService.initialGames.indexOf(this.card), 1);
     //something strange
     this.gamesService.games.splice(this.gamesService.games.indexOf(this.card), 1);
@@ -43,21 +29,7 @@ export class CardComponent implements OnInit{
     console.log("Added to library");
   }
 
-  /*array = [1,2,3];
-  obj = {name: 'Ira', info: {age: 19, job: 'Student'}};
-  imgUrl = 'https://files.worldwildlife.org/wwfcmsprod/images/Panda_in_Tree/hero_small/99i33zyc0l_Large_WW170579.jpg';
-  disabled = false;
-  textColor = 'black';
-
-  getInfo(): string {
-    return "This is info";
-  }*/
-
   ngOnInit(): void {
-    //setTimeout(() => {
-    //  this.imgUrl = 'https://i.pinimg.com/222x/51/dd/b1/51ddb1b0126b6304cb6d85d01c4cb789.jpg';
-    //  this.disabled = true;
-    //}, 3000);
   }
 
   //changeTitle() {

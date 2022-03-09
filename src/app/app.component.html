@@ -9,19 +9,19 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item" *ngIf="authService.isLoggedIn">
+          <li class="nav-item" *ngIf="authService.isLoggedIn && authService.userData">
             <a class="nav-link active fw-normal clickable purple" [class.purple]="page === 1" (click)="goToGamesPage()">Games</a>
           </li>
-          <li class="nav-item" *ngIf="authService.isLoggedIn">
+          <li class="nav-item" *ngIf="authService.isLoggedIn && authService.userData">
             <a class="nav-link active fw-normal clickable" [class.purple]="page === 2" (click)="goToLibraryPage()">Library</a>
           </li>
-          <li class="nav-item" *ngIf="authService.isLoggedIn">
+          <li class="nav-item" *ngIf="authService.isLoggedIn && authService.userData">
             <a class="nav-link active fw-normal clickable" [class.purple]="page === 3" (click)="goToFriendsPage()">Friends</a>
           </li>
-          <li class="nav-item" *ngIf="authService.isLoggedIn">
+          <li class="nav-item" *ngIf="authService.isLoggedIn && authService.userData">
             <a class="nav-link active fw-normal clickable" [class.purple]="page === 4" (click)="goToProfilePage()">Profile</a>
           </li>
-          <li class="nav-item d-flex" *ngIf="authService.isLoggedIn">
+          <li class="nav-item d-flex" *ngIf="authService.isLoggedIn && authService.userData">
             <a class="nav-link active fw-normal clickable" (click)="authService.SignOut()">Logout</a>
           </li>
         </ul>

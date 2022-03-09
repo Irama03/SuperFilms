@@ -27,11 +27,15 @@ export class ConnectionsService {
 
   constructor(public http: HttpClient, public authService: AuthService) {//}, private gamesService: GamesService) {
     if (authService.isLoggedIn) {
-      const userId = authService.userData.uid;
+      // @ts-ignore
+      const user = JSON.parse(localStorage.getItem('user'));
+      //const userId = authService.userData.uid;
+      const userId = user.uid;
       console.log("AuthService in connection: " + userId);
       const games: string[] = [];
       const friends: string[] = [];
-      const email: string = authService.userData.email;
+      //const email: string = authService.userData.email;
+      const email: string = user.email;
       const name: string = '';
       const age: string = '';
       /*const conn: Connection = {
