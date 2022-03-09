@@ -1,15 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {CreateResponse, Game} from "./games.service";
+import {CreateResponse} from "./games.service";
 import {ConnectionsService} from "./connections.service";
-import {deepCopyFunction} from "../utils";
-
-export interface Person {
-  id?: string
-  name: string
-}
+import {Person} from "../models/person";
 
 @Injectable({
   providedIn: 'root'
@@ -25,19 +19,13 @@ export class PeopleService {
   public findStr = '';
 
   constructor(public connectionsService: ConnectionsService) {
-    /*const name = "Pavlo Pavlenko";
+    /*const name = "Oleh Dudenko";
     const person: Person = {
       name
     };
     this.create(person).subscribe((person) => this.people.push(person));*/
     this.load().subscribe(people => {
       this.initialPeople = people;
-      /*for (const person of people) {
-        // @ts-ignore
-        if (connectionsService.connection.friends.includes(person.id)) {
-          this.friends.push(person);
-        }
-      }*/
       let peopleFriends;
       if (connectionsService.connection.value === undefined) {
         connectionsService.load().subscribe(connections => {
@@ -56,7 +44,7 @@ export class PeopleService {
                   this.friends.push(person);
                 }
               }
-              this.people = deepCopyFunction(this.friends);
+              this.people = this.friends;
               break;
             }
           }
@@ -73,7 +61,7 @@ export class PeopleService {
             this.friends.push(person);
           }
         }
-        this.people = deepCopyFunction(this.friends);
+        this.people = this.friends;
       }
     })
   }

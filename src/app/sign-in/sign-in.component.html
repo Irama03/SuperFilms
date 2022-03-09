@@ -1,15 +1,16 @@
 <div class="signIn">
   <h3>Sign In</h3>
+  <p class="text-danger">{{error}}</p>
   <div class="formGroup">
     <p>Email</p>
-    <input type="text" class="formControl" placeholder="Email" #userName required>
+    <input type="text" class="formControl" placeholder="Email" #userName>
   </div>
 
   <div class="formGroup mt-3">
     <p>Password</p>
-    <input type="password" class="formControl" placeholder="Password" #userPassword required>
+    <input type="password" class="formControl" placeholder="Password" #userPassword>
   </div>
   <div class="formGroup">
-    <input type="button" class="btn btn-primary mt-3" value="Sign in" (click)="authService.SignIn(userName.value, userPassword.value)">
+    <input type="button" class="btn btn-primary mt-3" value="Sign in" (click)="signIn(userName.value, userPassword.value)">
   </div>
 </div>

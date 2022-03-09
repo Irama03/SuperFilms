@@ -2,18 +2,9 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {CreateResponse, Game, GamesService} from "./games.service";
+import {CreateResponse} from "./games.service";
 import {AuthService} from "./auth.service";
-
-export interface Connection {
-  id?: string,
-  userId: string,
-  games: string[],
-  friends: string[],
-  email: string,
-  name: string,
-  age: string
-}
+import {Connection} from "../models/connection";
 
 @Injectable({
   providedIn: 'root'
@@ -23,27 +14,27 @@ export class ConnectionsService {
   static url = 'https://supergames-8b60f-default-rtdb.europe-west1.firebasedatabase.app/connections';
   // @ts-ignore
   public connection: BehaviorSubject<Connection> = new BehaviorSubject<Connection>();
-  //public connection: Connection;
 
-  constructor(public http: HttpClient, public authService: AuthService) {//}, private gamesService: GamesService) {
+  constructor(public http: HttpClient, public authService: AuthService) {
     if (authService.isLoggedIn) {
       // @ts-ignore
       const user = JSON.parse(localStorage.getItem('user'));
-      //const userId = authService.userData.uid;
       const userId = user.uid;
       console.log("AuthService in connection: " + userId);
       const games: string[] = [];
       const friends: string[] = [];
-      //const email: string = authService.userData.email;
       const email: string = user.email;
-      const name: string = '';
-      const age: string = '';
+      const name: string = 'Jane';
+      const age: string = '25';
       /*const conn: Connection = {
         userId,
         games,
-        friends
+        friends,
+        email,
+        name,
+        age
       };
-      this.create(conn).subscribe((con) => this.connection = con);*/
+      this.create(conn);*///.subscribe((con) => this.connection.next(con));
       this.load().subscribe(connections => {
         //this.games = games;
         let found = false;
@@ -54,16 +45,6 @@ export class ConnectionsService {
             //this.connection = con;
             this.connection.next(con);
             found = true;
-
-            /*for (const game of gamesService.games) {
-              console.log("G: " + game.id);
-              //@ts-ignore
-              if (connection.games.includes(game.id)) {
-                console.log("push");
-                gamesService.gamesInLibrary.push(game);
-              }
-            }*/
-
             break;
           }
         }
@@ -81,18 +62,6 @@ export class ConnectionsService {
       })
     }
   }
-
-  // або юзера передавати
-  /*load(id: string): Observable<Connection> {
-    // @ts-ignore
-    return this.http.get<Connection>(`${ConnectionsService.url}.json`).pipe(connections => {
-        if (!connections) {
-          //return new Connection(id, [], []);
-          return null;
-        }
-        return connections;
-      });
-  }*/
 
   load(): Observable<Connection[]> {
     return this.http
@@ -113,11 +82,6 @@ export class ConnectionsService {
         return {...connection, id: res.name}
       }));
   }
-
-  /*remove(connection: Connection): Observable<void> {
-    return this.http
-      .delete<void>(`${ConnectionsService.url}/${connection.id}.json`);
-  }*/
 
   updateNameAndAge(userName: string, userAge: string): void {
     const val = this.connection.value;
@@ -141,8 +105,7 @@ export class ConnectionsService {
     this.http
       .put<Connection>(`${ConnectionsService.url}/${conn.id}.json`, conn)
       .subscribe(connection => {
-        console.log('Age changed: ' + connection.age);
-        //error - cycle
+        console.log('Age or name changed: ' + connection.age);
         this.connection.next(connection);
       });
   }

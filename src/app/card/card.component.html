@@ -1,43 +1,15 @@
 <div class="card">
-  <h3>{{card.name}}</h3>
-  <p *ngIf="main">{{card.price}} UAH</p>
-  <p>{{card.description}}</p>
-  <p>{{card.tag}}</p>
-  <button class="btn btn-primary" *ngIf="main" (click)="addToLibrary()">Add to library</button>
+  <div class="violet">
+    <h3 class="text-white">{{card.name}}</h3>
+    <p class="text-white">{{card.tag}}</p>
+    <h4 class="price" *ngIf="main">{{card.price}} UAH</h4>
+  </div>
+
+  <p class="ms-2">{{card.description}}</p>
+
+  <button class="btn btn-primary m-2 but" *ngIf="main" (click)="addToLibrary()">Add to library</button>
   <div class="btn-group" role="group" *ngIf="!main">
     <button class="btn btn-primary me-2">Download</button>
     <button class="btn btn-primary">Share</button>
   </div>
-
-  <!--<h2 [ngStyle]="{
-    color: card.title.length < 5 ? 'black' : 'blue',
-    fontWeight: card.title.length < 7 ? 'normal' : 'bold'
-  }">{{index}} {{card.title }}</h2>
-
-  <p class="text" [class.green]="textColor === 'green'"
-     [class.red]="textColor === 'red'">{{card.text}}</p>
-  <div class="buttons">
-    <button (click)="textColor = 'red'">Set red</button>
-    <button (click)="textColor = 'green'">Set green</button>
-  </div>
-
-  <em>{{array}}</em>
-  //pipe for to string
-  <pre>{{obj | json}}</pre>
-  <p>{{getInfo()}}</p>
-  <div>
-    <img [src]="imgUrl">
-    <br>
-    <button [disabled]="disabled">Enable</button>
-    <button (click)="changeTitle()">Change title</button>
-    <button (click)="card.title = 'Inline title'">Change title inline</button>
-  </div>
-
-  <div>
-    <strong>{{cardDate | date:'dd MMMM YYYY HH:MM:ss'}}</strong>
-  </div>
-
-  <div>
-    <input type="text" [(ngModel)]="card.title">
-  </div>-->
 </div>

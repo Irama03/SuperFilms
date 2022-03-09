@@ -1,8 +1,6 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {Game, GamesService} from "../shared/services/games.service";
-import {FilterService} from "../shared/services/filter.service";
-import {Connection, ConnectionsService} from "../shared/services/connections.service";
-import {AuthService} from "../shared/services/auth.service";
+import {GamesService} from "../shared/services/games.service";
+import {Game} from "../shared/models/game";
 
 @Component({
   selector: 'app-card',
@@ -13,8 +11,6 @@ export class CardComponent implements OnInit{
 
   // @ts-ignore
   @Input() card: Game;
-  // @ts-ignore
-  @Input() index: number;
   @Input() main: boolean = true;
 
   constructor(public gamesService: GamesService) { }
@@ -31,18 +27,4 @@ export class CardComponent implements OnInit{
 
   ngOnInit(): void {
   }
-
-  //changeTitle() {
-  //  this.title = 'Title has been changed!'
-  //}
-
-  /*inputHandler(event: any) {
-    //console.log(event);
-    const value = event.target.value;
-    this.title = value;
-  }*/
-
-  //inputHandler(value: string) {
-  //  this.title = value;
-  //}
 }

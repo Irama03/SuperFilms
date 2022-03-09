@@ -1,10 +1,5 @@
 <div class="container">
 
-  <!--<hr>
-  <div>{{filterService.someString | async | filter}}</div>
-  <button (click)="go(1)">Click</button>
-  <button (click)="toggleCards()">Toggle cards</button>
-  <hr>-->
   <br>
   <br>
   <br>
@@ -14,23 +9,16 @@
     <input type="text" placeholder="Search games" formControlName="findStr">
     <button class="btn btn-primary ms-2" type="submit">Search</button>
   </form>
-  <app-form></app-form>
+  <!--<app-form></app-form>-->
 
-  <!--<div *ngIf="toggle; else hiddenCards">
-    <app-card *ngFor="let iterCard of cards; let idx = index"
-              [card]="iterCard"
-              [index]="idx + 1">
-    </app-card>
-  </div>-->
   <h3>Featured games</h3>
   <div class="container">
     <div class="row">
       <div class="col-10 container">
 
           <div *ngIf="gamesService.games.length; else noCards" class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-            <app-card *ngFor="let game of gamesService.games; let idx = index"
+            <app-card *ngFor="let game of gamesService.games"
                       [card]="game"
-                      [index]="idx + 1"
                       class="col">
             </app-card>
           </div>
@@ -50,16 +38,8 @@
     </div>
   </div>
 
-  <!--<ng-template #hiddenCards>
-    <p>Cards are hidden</p>
-  </ng-template>-->
-
   <ng-template #noCards>
     <p>There are no games</p>
   </ng-template>
-
-  <div>
-
-  </div>
 
 </div>

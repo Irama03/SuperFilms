@@ -25,7 +25,6 @@ import { GamesComponent } from './games/games.component'
 import { LibraryComponent } from './library/library.component';
 import { FriendsComponent } from './friends/friends.component';
 import { ProfileComponent } from './profile/profile.component';
-import {FilterPipe} from "./shared/filter.pipe";
 import { SignInComponent } from './sign-in/sign-in.component';
 import {AuthService} from "./shared/services/auth.service";
 import {AuthGuard} from "./shared/guard/auth.guard";
@@ -40,7 +39,6 @@ import { PersonComponent } from './person/person.component';
     LibraryComponent,
     FriendsComponent,
     ProfileComponent,
-    FilterPipe,
     SignInComponent,
     PersonComponent
   ],

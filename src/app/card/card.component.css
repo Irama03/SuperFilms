@@ -1,5 +1,4 @@
 .card {
-  padding: .5rem 1rem;
   border: 1px solid #ccc;
   margin-bottom: 1rem;
 }
@@ -14,4 +13,22 @@
 
 .green {
   color: green;
+}
+
+.violet {
+  padding: .5rem 1rem;
+  position: static;
+  left: 0px;
+  top: 0px;
+  background: #BDBCFF;
+}
+
+.price {
+  position: static;
+  text-align: right;
+  color: #FFFFFF;
+}
+
+.but {
+  background: #6C69FF;
 }

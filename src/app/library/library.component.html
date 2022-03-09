@@ -7,9 +7,8 @@
   <div class="container">
 
     <div *ngIf="gamesService.gamesInLibrary.length; else noCards" class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-      <app-card *ngFor="let game of gamesService.gamesInLibrary; let idx = index"
+      <app-card *ngFor="let game of gamesService.gamesInLibrary"
                 [card]="game"
-                [index]="idx + 1"
                 [main]=false
                 class="col">
       </app-card>

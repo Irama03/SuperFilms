@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {PeopleService, Person} from "../shared/services/people.service";
+import {PeopleService} from "../shared/services/people.service";
 import {FormControl, FormGroup} from "@angular/forms";
+import {Person} from "../shared/models/person";
 
 @Component({
   selector: 'app-friends',

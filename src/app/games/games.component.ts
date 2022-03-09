@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FilterService} from "../shared/services/filter.service";
-import {Game, GamesService} from "../shared/services/games.service";
-import {AuthService} from "../shared/services/auth.service";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {GamesService} from "../shared/services/games.service";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-games',
@@ -15,7 +13,7 @@ export class GamesComponent implements OnInit {
   findForm: FormGroup = new FormGroup({});
   filterForm: FormGroup = new FormGroup({});
 
-  constructor(public filterService: FilterService, public gamesService: GamesService/*, public authService: AuthService*/) { }
+  constructor(public gamesService: GamesService) { }
 
   ngOnInit(): void {
     this.findForm = new FormGroup({findStr: new FormControl('')})
@@ -25,15 +23,6 @@ export class GamesComponent implements OnInit {
       action: new FormControl(false),
       adventure: new FormControl(false)
     });
-  }
-
-  toggleCards(){
-    this.toggle = !this.toggle;
-  }
-
-  // dir - direction - направление
-  go(dir: number) {
-    this.filterService.changeSomeString(dir);
   }
 
   find() {

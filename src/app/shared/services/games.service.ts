@@ -1,19 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {AuthService} from "./auth.service";
-import {Connection, ConnectionsService} from "./connections.service";
-import {PeopleService} from "./people.service";
+import {ConnectionsService} from "./connections.service";
 import {deepCopyFunction} from "../utils";
-
-export interface Game {
-  id?: string
-  name: string,
-  price: number,
-  description: string,
-  tag: string
-}
+import {Game} from "../models/game";
 
 export interface CreateResponse {
   name: string
@@ -36,13 +26,10 @@ export class GamesService {
 
   constructor(public connectionsService: ConnectionsService) {
     this.load().subscribe(games => {
-      //this.initialGames = games;
-      //this.games = deepCopyFunction(games);
       let gamesInLibrary;
       if (connectionsService.connection.value === undefined) {
         connectionsService.load().subscribe(connections => {
           for (const con of connections) {
-            // @ts-ignore
             if (con.userId == connectionsService.authService.userData.uid) {
               console.log("Got connection in games");
               connectionsService.connection.next(con);
@@ -80,22 +67,6 @@ export class GamesService {
 
     })
   }
-
-  /*fillGamesInLibrary(connection: Connection) {
-    console.log("This: " + this);
-    console.log("this.games: " + this.initialGames);
-    this.load().subscribe(games => {
-      this.initialGames = games;
-      for (const game of this.initialGames) {
-        console.log("G: " + game.id);
-        //@ts-ignore
-        if (connection.games.includes(game.id)) {
-          console.log("push");
-          this.gamesInLibrary.push(game);
-        }
-      }
-    })
-  }*/
 
   load(): Observable<Game[]> {
     return this.connectionsService.http

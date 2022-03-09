@@ -4,23 +4,21 @@ import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/compat/f
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import firebase from "firebase/compat";
 import auth = firebase.auth;
-import {User} from "../user";
+import {User} from "../models/user";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  userData: any; // Save logged in user data
+  userData: any;
 
   constructor(
-    public afs: AngularFirestore,   // Inject Firestore service
-    public afAuth: AngularFireAuth, // Inject Firebase auth service
+    public afs: AngularFirestore,
+    public afAuth: AngularFireAuth,
     public router: Router,
-    public ngZone: NgZone // NgZone service to remove outside scope warning
+    public ngZone: NgZone
   ) {
-    /* Saving user data in localstorage when
-    logged in and setting up null when logged out */
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userData = user;
@@ -38,7 +36,6 @@ export class AuthService {
 
   public allowNavigating: boolean = false;
 
-  // Sign in with email/password
   SignIn(email: any, password: any) {
     console.log('In sign in');
     return this.afAuth.signInWithEmailAndPassword(email, password)
@@ -50,33 +47,15 @@ export class AuthService {
           this.router.navigate(['games']).then(() => {console.log('Navigated'); this.allowNavigating = false;}).catch(err => console.log(err));
         });
         this.SetUserData(result.user);
-      }).catch((error) => {
-        window.alert(error.message)
       });
   }
 
-  // Returns true when user is logged in and email is verified
   get isLoggedIn(): boolean {
     // @ts-ignore
     const user = JSON.parse(localStorage.getItem('user'));
-    //console.log('User: ' + user.emailVerified);
-    return (user !== null); // && user.emailVerified !== false);
+    return (user !== null);
   }
 
-  // Auth logic to run auth providers
-  /*AuthLogin(provider: any) {
-    return this.afAuth.signInWithPopup(provider)
-      .then((result) => {
-        this.ngZone.run(() => {
-          this.router.navigate(['games']);
-        })
-        this.SetUserData(result.user);
-      }).catch((error) => {
-        window.alert(error)
-      })
-  }*/
-
-  /* Setting up user data when sign in with username/password*/
   SetUserData(user: any) {
     console.log('In set user data: ' + user.email);
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
@@ -92,9 +71,7 @@ export class AuthService {
     })
   }
 
-  // Sign out
   SignOut() {
-    //this.router.navigate(['sign-in']);
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
       this.router.navigate(['sign-in']);
